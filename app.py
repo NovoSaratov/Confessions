@@ -15,7 +15,7 @@ with app.app_context():
     db = get_db()
     db.execute('''CREATE TABLE IF NOT EXISTS confessions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    content TEXT NOT NULL,
+                    content TEXT NOT NULL,  
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
     db.commit()
     db.close()
@@ -45,7 +45,7 @@ def confess():
     content = request.json.get('content')
     if not content:
         return jsonify({'error': 'Innhold kreves'}), 400
-    
+        
     db = get_db()
     db.execute("INSERT INTO confessions (content) VALUES (?)", (content,))
     db.commit()

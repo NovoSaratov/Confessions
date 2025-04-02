@@ -9,7 +9,7 @@
     <div id="confessionsList">
         {% for confession in confessions %}
         <div>
-            <button onclick="deleteConfession({{ confession.id }})">Delete</button>
+            <button onclick="deleteConfession('{{ confession.id }}')">Delete</button>
             <p>{{ confession.content }}</p>
             <small>{{ confession.timestamp }}</small>
         </div>
@@ -21,7 +21,10 @@
             if (!confirm('Are you sure you want to delete this confession?')) return;
             
             try {
-                await fetch(`/admin/delete/${id}`, { method: 'POST' });
+                const response = await fetch(`/admin/delete/${id}`, { method: 'POST' });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 location.reload();
             } catch (error) {
                 alert('Error deleting confession');
