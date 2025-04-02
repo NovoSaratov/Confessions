@@ -25,6 +25,21 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
+@app.route('/admin')
+def admin_dashboard():
+    db = get_db()
+    confessions = db.execute("SELECT * FROM confessions ORDER BY timestamp DESC").fetchall()
+    db.close()
+    return render_template('admin_dashboard.html', confessions=[dict(row) for row in confessions])
+
+@app.route('/admin/delete/<int:confession_id>', methods=['POST'])
+def delete_confession(confession_id):
+    db = get_db()
+    db.execute("DELETE FROM confessions WHERE id = ?", (confession_id,))
+    db.commit()
+    db.close()
+    return jsonify({'message': 'Slettet'})
+
 @app.route('/confess', methods=['POST'])
 def confess():
     content = request.json.get('content')
@@ -35,7 +50,7 @@ def confess():
     db.execute("INSERT INTO confessions (content) VALUES (?)", (content,))
     db.commit()
     db.close()
-    return jsonify({'message': 'Suksess'}), 201 
+    return jsonify({'message': 'Suksess'}), 201
 
 @app.route('/confessions')
 def get_confessions():
