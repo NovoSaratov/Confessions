@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confessions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Confessions</h1>
+    
+    <div>
+        <textarea id="confessionText" placeholder="Write your confession here..."></textarea>
+        <button onclick="submitConfession()">Submit Confession</button>
+    </div>
+
+    <div id="confessionsList"></div>
+
+    <script>
+        function submitConfession() {
+            const content = document.getElementById('confessionText').value;
+            if (!content) return;
+
+            const button = document.querySelector('button');
+            button.disabled = true;
+            button.textContent = 'Submitting...';
+
+            fetch('/confess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content: content })
+            })
+            .then(response => response.json())
+            .then(() => {
+                document.getElementById('confessionText').value = '';
+                loadConfessions();
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = 'Submit Confession';
+            });
+        }
+
+        function loadConfessions() {
+            fetch('/confessions')
+            .then(response => response.json())
+            .then(confessions => {
+                const list = document.getElementById('confessionsList');
+                list.innerHTML = '';
+                confessions.forEach(confession => {
+                    list.innerHTML += `
+                        <div>
+                            <p>${confession.content}</p>
+                            <small>${new Date(confession.timestamp).toLocaleString()}</small>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // Load confessions when page loads
+        loadConfessions();
+    </script>
+</body>
+</html> 
