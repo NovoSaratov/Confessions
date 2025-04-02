@@ -35,7 +35,7 @@ def confess():
     db.execute("INSERT INTO confessions (content) VALUES (?)", (content,))
     db.commit()
     db.close()
-    return jsonify({'message': 'Suksess'}), 201
+    return jsonify({'message': 'Suksess'}), 201 
 
 @app.route('/confessions')
 def get_confessions():
