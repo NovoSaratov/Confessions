@@ -1,17 +1,170 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+
+        .confession-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .confession-content {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            padding-right: 80px; /* Space for delete button */
+        }
+
+        .confession-timestamp {
+            color: #666;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
+        .delete-button:active {
+            transform: scale(0.98);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .admin-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin: 20px 0;
+            }
+
+            .confession-item {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .delete-button {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .confession-content {
+                padding-right: 70px;
+            }
+
+            .admin-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Prevent text overflow */
+        * {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Admin Dashboard</h1>
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <div class="admin-stats">
+            <div class="stat-item">
+                <div class="stat-value">{{ confessions|length }}</div>
+                <div class="stat-label">Total Confessions</div>
+            </div>
+        </div>
+    </div>
     
     <div id="confessionsList">
         {% for confession in confessions %}
-        <div>
-            <button onclick="deleteConfession('{{ confession.id }}')">Delete</button>
-            <p>{{ confession.content }}</p>
-            <small>{{ confession.timestamp }}</small>
+        <div class="confession-item">
+            <p class="confession-content">{{ confession.content }}</p>
+            <small class="confession-timestamp">{{ confession.timestamp }}</small>
+            <button class="delete-button" onclick="deleteConfession('{{ confession.id }}')">Delete</button>
         </div>
         {% endfor %}
     </div>
