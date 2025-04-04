@@ -1,8 +1,22 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import sqlite3
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = '7nx278n2rx7n2xn78t2xnt782xtn78    '  # Enkel hemmelig nøkkel for utvikling
+
+# Admin credentials (in production, use environment variables and proper password hashing)
+ADMIN_USERNAME = 'admin'
+ADMIN_PASSWORD = 'admin123'
+
+# Login required decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'admin_logged_in' not in session:
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Database hjelpefunksjon
 def get_db():
@@ -25,7 +39,27 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['admin_logged_in'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return render_template('admin_login.html', error=True)
+    
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('admin_login'))
+
 @app.route('/admin')
+@login_required
 def admin_dashboard():
     db = get_db()
     confessions = db.execute("SELECT * FROM confessions ORDER BY timestamp DESC").fetchall()
