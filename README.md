@@ -20,7 +20,7 @@ cd confessions
 2. Opprett et virtuelt miljø og aktiver det:
 ```bash
 python -m venv venv
-source venv/bin/activate  # På Windows: venv\Scripts\activate
+source venv/bin/activate
 ```
 
 3. Installer avhengigheter:
