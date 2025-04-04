@@ -60,15 +60,6 @@ Applikasjonen vil nå være tilgjengelig på `http://localhost:5000`
 - **Frontend**: HTML, CSS, JavaScript
 - **Styling**: Responsivt design med moderne CSS
 
-## Sikkerhet
-
-For produksjonsmiljøet anbefales følgende sikkerhetstiltak:
-1. Deploy aplikasjonen gjennom flask
-2. Implementer HTTPS
-3. Legg til CSRF-beskyttelse
-4. Implementer rate limiting
-5. Legg til ordfilter
-
 ## BRUKSANVISNING
 [Dette er hvor du kan lese på hvordan man bruker nettsiden](userguide.md)
 
