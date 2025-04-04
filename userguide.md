@@ -24,8 +24,12 @@
 ## For administratorer
 
 ### Hvordan administrere nettsiden
-1. Logg inn på admin-panelet
-2. Her kan du:
+1. Gå på riktig ip adresse:
+    ```
+   http://127.0.0.1:5000/admin
+   ```
+3. Logg inn på admin-panelet
+4. Her kan du:
    - Se alle bekjennelser
    - Slette uønskede bekjennelser
    - Overvåke aktivitet på nettsiden
@@ -33,4 +37,22 @@
 ### Viktige funksjoner
 - Oversikt over alle bekjennelser
 - Mulighet for å moderere innhold
-- Statistikk over bruk av nettsiden 
+- Statistikk over bruk av nettsiden
+
+### VIDEO GUIDE
+
+
+## BRUKERE
+https://github.com/user-attachments/assets/0be0aa75-08ef-4c61-ab16-ec79cff45936
+
+
+
+
+
+
+## ADMIN
+https://github.com/user-attachments/assets/edcd4c61-c78c-4ec5-a0cb-031bec1fc959
+
+
+
+
