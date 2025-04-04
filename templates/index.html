@@ -179,7 +179,10 @@
 
         async function submitConfession() {
             const content = document.getElementById('confessionText').value;
-            if (!content) return;
+            if (!content.trim()) {
+                alert('Please enter a confession');
+                return;
+            }
 
             const button = document.querySelector('button');
             button.disabled = true;
@@ -194,15 +197,18 @@
                     body: JSON.stringify({ content: content })
                 });
                 
+                const data = await response.json();
+                
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(data.error || 'Failed to submit confession');
                 }
                 
-                await response.json();
                 document.getElementById('confessionText').value = '';
                 await loadConfessions();
+                alert('Confession submitted successfully!');
             } catch (error) {
                 console.error('Error submitting confession:', error);
+                alert('Failed to submit confession. Please try again.');
             } finally {
                 button.disabled = false;
                 button.textContent = 'Submit Confession';
@@ -213,12 +219,18 @@
             try {
                 const response = await fetch('/confessions');
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Failed to load confessions');
                 }
                 
                 const confessions = await response.json();
                 const list = document.getElementById('confessionsList');
                 list.innerHTML = '';
+                
+                if (confessions.length === 0) {
+                    list.innerHTML = '<div class="confession"><p>No confessions yet. Be the first to share!</p></div>';
+                    return;
+                }
+                
                 confessions.forEach(confession => {
                     list.innerHTML += `
                         <div class="confession">
@@ -229,6 +241,8 @@
                 });
             } catch (error) {
                 console.error('Error loading confessions:', error);
+                const list = document.getElementById('confessionsList');
+                list.innerHTML = '<div class="confession"><p>Failed to load confessions. Please refresh the page.</p></div>';
             }
         }
     </script>
