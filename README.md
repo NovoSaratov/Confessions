@@ -69,6 +69,8 @@ For produksjonsmiljøet anbefales følgende sikkerhetstiltak:
 4. Implementer rate limiting
 5. Legg til ordfilter
 
+## BRUKSANVISNING
+[Dette er hvor du kan lese på hvordan man bruker nettsiden](userguide)
 
 ## Lisens
 
