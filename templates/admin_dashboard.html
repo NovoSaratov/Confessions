@@ -191,13 +191,30 @@
             if (!confirm('Are you sure you want to delete this confession?')) return;
             
             try {
-                const response = await fetch(`/admin/delete/${id}`, { method: 'POST' });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                console.log('Attempting to delete confession:', id);
+                const response = await fetch(`/admin/delete/${id}`, { 
+                    method: 'POST',
+                    credentials: 'same-origin'
+                });
+                
+                // Check if we got redirected to the login page
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return;
                 }
+                
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 location.reload();
             } catch (error) {
-                alert('Error deleting confession');
+                console.error('Error deleting confession:', error);
+                alert('Error deleting confession: ' + error.message);
             }
         }
     </script>
