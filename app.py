@@ -67,6 +67,7 @@ def admin_dashboard():
     return render_template('admin_dashboard.html', confessions=[dict(row) for row in confessions])
 
 @app.route('/admin/delete/<int:confession_id>', methods=['POST'])
+@login_required
 def delete_confession(confession_id):
     db = get_db()
     db.execute("DELETE FROM confessions WHERE id = ?", (confession_id,))
