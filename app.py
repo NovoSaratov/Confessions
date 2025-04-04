@@ -1,21 +1,19 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
-from flask_cors import CORS
 import mysql.connector
 from mysql.connector import Error
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
-app.secret_key = '7nx278n2rx7n2xn78t2xnt782xtn78'  # Change this to a secure random string
+app.secret_key = '7nx278n2rx7n2xn78t2xnt782xtn78'  # Hemmelig nøllel
 
-# Database configuration
+# Database konfigurasjon
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '1488Aa!.',
+    'password': '1488Aa!.', 
     'database': 'confessions_db'
 }
 
-# Database helper function
+# Tilkobling verifikasjon
 def get_db():
     try:
         connection = mysql.connector.connect(**db_config)
@@ -40,7 +38,7 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     
-    if username == 'admin' and password == '1234':  # Change these credentials
+    if username == 'admin' and password == '1234':  # 
         session['logged_in'] = True
         return redirect(url_for('admin_dashboard'))
     return render_template('admin_login.html', error=True)
@@ -80,8 +78,8 @@ def delete_confession(confession_id):
             return jsonify({'message': 'Deleted'})
         except Error as e:
             print(f"Error deleting confession: {e}")
-            return jsonify({'error': str(e)}), 500
-    return jsonify({'error': 'Database connection error'}), 500
+            return "Database error", 500
+    return "Database connection error", 500
 
 @app.route('/admin/logout')
 def logout():
@@ -90,35 +88,23 @@ def logout():
 
 @app.route('/confess', methods=['POST'])
 def confess():
-    try:
-        data = request.get_json()
-        if not data or 'content' not in data:
-            return jsonify({'error': 'Content is required'}), 400
-            
-        content = data['content']
-        if not content.strip():
-            return jsonify({'error': 'Content cannot be empty'}), 400
-            
-        connection = get_db()
-        if not connection:
-            return jsonify({'error': 'Database connection failed'}), 500
-            
+    content = request.json.get('content')
+    if not content:
+        return jsonify({'error': 'Content required'}), 400
+        
+    connection = get_db()
+    if connection:
         try:
             cursor = connection.cursor()
             cursor.execute("INSERT INTO confessions (content) VALUES (%s)", (content,))
             connection.commit()
             cursor.close()
             connection.close()
-            return jsonify({'message': 'Success', 'id': cursor.lastrowid}), 201
+            return jsonify({'message': 'Success'}), 201
         except Error as e:
-            print(f"Database error: {e}")
-            return jsonify({'error': 'Database error occurred'}), 500
-        finally:
-            if connection.is_connected():
-                connection.close()
-    except Exception as e:
-        print(f"Server error: {e}")
-        return jsonify({'error': 'Server error occurred'}), 500
+            print(f"Error inserting confession: {e}")
+            return "Database error", 500
+    return "Database connection error", 500
 
 @app.route('/confessions')
 def get_confessions():
@@ -133,8 +119,8 @@ def get_confessions():
             return jsonify(confessions)
         except Error as e:
             print(f"Error fetching confessions: {e}")
-            return jsonify({'error': str(e)}), 500
-    return jsonify({'error': 'Database connection error'}), 500
+            return "Database error", 500
+    return "Database connection error", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
