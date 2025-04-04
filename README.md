@@ -70,7 +70,7 @@ For produksjonsmiljøet anbefales følgende sikkerhetstiltak:
 5. Legg til ordfilter
 
 ## BRUKSANVISNING
-[Dette er hvor du kan lese på hvordan man bruker nettsiden](userguide)
+[Dette er hvor du kan lese på hvordan man bruker nettsiden](userguide.md)
 
 ## Lisens
 
