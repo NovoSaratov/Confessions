@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 4. Start applikasjonen:
 ```bash
-python app.py
+python3 app.py
 ```
 
 Applikasjonen vil nå være tilgjengelig på `http://localhost:5000`
