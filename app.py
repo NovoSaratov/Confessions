@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import sqlite3
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = '7nx278n2rx7n2xn78t2xnt782xtn78    '  # Enkel hemmelig nøkkel for utvikling
@@ -10,6 +11,7 @@ ADMIN_PASSWORD = 'admin123'
 
 # Login required decorator
 def login_required(f):
+    @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'admin_logged_in' not in session:
             return redirect(url_for('admin_login'))
