@@ -5,7 +5,7 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = '7nx278n2rx7n2xn78t2xnt782xtn78    '  # Enkel hemmelig nøkkel for utvikling
 
-# Admin credentials (in production, use environment variables and proper password hashing)
+# Admin credentials
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'admin123'
 
