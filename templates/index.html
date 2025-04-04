@@ -20,11 +20,32 @@
             width: 100%;
         }
 
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .title-container img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
         h1 {
             text-align: center;
-            margin: 30px 0;
             color: #2c3e50;
             font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 30px;
+            font-style: italic;
         }
 
         .input-container {
@@ -164,7 +185,11 @@
     </style>
 </head>
 <body>
-    <h1>Confessions</h1>
+    <div class="title-container">
+        <img src="https://cdn0.iconfinder.com/data/icons/movies-11/32/anonymous_guy_fawkes_mask_vendetta_activist_avatar-512.png" alt="Anonymous Icon">
+        <h1>Confessions</h1>
+    </div>
+    <p class="subtitle">Et anonymt meldingsbrett for ytringsfrihet</p>
     
     <div class="input-container">
         <textarea id="confessionText" placeholder="Write your confession here..."></textarea>
