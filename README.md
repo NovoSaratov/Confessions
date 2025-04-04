@@ -72,4 +72,4 @@ For produksjonsmiljøet anbefales følgende sikkerhetstiltak:
 
 ## Lisens
 
-Dette prosjektet er lisensiert under MIT-lisensen. 
+[Dette prosjektet er lisensiert under MIT-lisensen](license.md)
